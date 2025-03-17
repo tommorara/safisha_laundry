@@ -1,4 +1,4 @@
-# Laundry Inventory and Communication System
+# Laundry Inventory
 
 **Tagline:** Efficiently tracking laundry inventory and enhancing customer communication.
 
