@@ -28,10 +28,11 @@ The **Laundry Inventory and Communication System** is a web-based solution desig
 ---
 
 ## 👥 Team Members
-| Name           | Role                | Responsibilities                                             |
-|---------------|---------------------|-------------------------------------------------------------|
-| **Tom Nyabuto** | Backend Developer      | Develop and manage the backend, including database and API.  |
-|               | Frontend Developer     | Design the user interface and integrate it with the backend. |
+| Name            | Role                | Responsibilities                                             |
+|-----------------|---------------------|-------------------------------------------------------------|
+| **Tom Nyabuto**  | Backend Developer      | Develop and manage the backend, including database and API.  |
+| **Kelvin Mabonga** | Backend Developer      | Handle database integration and API performance optimization. |
+|                 | Frontend Developer     | Design the user interface and integrate it with the backend. |
 
 ---
 
