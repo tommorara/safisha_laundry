@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laundry Dashboard</title>
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .sidebar {
+            width: 250px;
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+        }
+        .sidebar h2 {
+            text-align: center;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #34495e;
+        }
+        .sidebar ul li:hover {
+            background: #34495e;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background: #3498db;
+            color: white;
+        }
+        .form-container {
+            max-width: 400px;
+            background: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .form-container input, .form-container select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-container button {
+            background: #3498db;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Laundry Orders</h2>
+        <ul>
+            <li>Create an Order</li>
+            <li>Processed Orders</li>
+            <li>Active Orders</li>
+            <li>Overdue Orders</li>
+        </ul>
+    </div>
+    <div class="content">
+        <h2>Create an Order</h2>
+        <div class="form-container">
+            <form id="orderForm">
+                <label>Full Name:</label>
+                <input type="text" id="fullName" required>
+                
+                <label>Phone No.:</label>
+                <input type="text" id="phoneNo" required>
+                
+                <label>Type of Clothes:</label>
+                <select id="clothesType" required>
+                    <option value="Suit">Suit</option>
+                    <option value="T-Shirt">T-Shirt</option>
+                    <option value="Shirt">Shirt</option>
+                    <option value="Beddings">Beddings</option>
+                    <option value="Jeans">Jeans</option>
+                </select>
+                
+                <label>Number of Clothes:</label>
+                <input type="number" id="numClothes" required>
+                
+                <label>Due Date:</label>
+                <input type="date" id="dueDate" required>
+                
+                <label>Physical Address:</label>
+                <input type="text" id="residence" required>
+                
+                <button type="submit">Submit Order</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById("orderForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            alert("Order submitted successfully!");
+        });
+    </script>
+</body>
+</html>
+
