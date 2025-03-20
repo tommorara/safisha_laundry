@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Order Report{% endblock %}
+{% block content %}
+<h2>Order Report</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Fabric</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>Date Received</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.customer_name }}</td>
+            <td>{{ order.fabric_type }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.date_received.strftime('%Y-%m-%d') }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
