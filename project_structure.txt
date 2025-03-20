@@ -2,7 +2,7 @@
 safisha_laundry/
 ├── app/                    # Core Flask app logic (routes, models, controllers)
 ├── assets/                 # Static files (CSS, JS, fonts)
-├── dashboards/             # Dashboard-specific templates or logic
+├── database/             # Dashboard-specific templates or logic
 ├── images/                 # Images used in the project
 ├── migrations/             # Flask-Migrate database migration files
 ├── __pycache__/            # Python bytecode cache files
