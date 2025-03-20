@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Laundry Order Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+    <h1>Laundry Order Management</h1>
+    <div class="container">
+        <form id="orderForm">
+            <input type="text" id="customerName" placeholder="Customer Name" required />
+            <input type="text" id="contactNumber" placeholder="Contact Number" required />
+            <div id="fabricList"></div>
+            <button type="button" onclick="addFabric()">➕ Add Fabric</button>
+            <input type="number" id="totalWeight" placeholder="Total Weight (kg)" step="0.01" />
+            <input type="date" id="orderReceivedDate" />
+            <input type="date" id="dueDate" required />
+            <textarea id="notes" placeholder="Additional Notes (optional)"></textarea>
+            <button type="submit">➕ Add Order</button>
+        </form>
+
+        <div id="orderList"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+
