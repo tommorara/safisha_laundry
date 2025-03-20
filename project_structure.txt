@@ -1,0 +1,18 @@
+
+safisha_laundry/
+├── app/                    # Core Flask app logic (routes, models, controllers)
+├── assets/                 # Static files (CSS, JS, fonts)
+├── database/             # Dashboard-specific templates or logic
+├── images/                 # Images used in the project
+├── migrations/             # Flask-Migrate database migration files
+├── __pycache__/            # Python bytecode cache files
+├── templates/              # HTML templates for the app
+│   ├── contact.html
+│   ├── elements.html
+│   ├── generic.html
+│   └── index.html
+├── README.md               # Project documentation
+├── requirements.txt        # List of Python dependencies
+├── backup.sql              # Database backup file
+└── run.py                  # Main Flask app file to start the server
+
