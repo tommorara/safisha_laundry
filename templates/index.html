@@ -7,24 +7,90 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
 </head>
 <body>
-    <h1>Laundry Order Management</h1>
-    <div class="container">
-        <form id="orderForm">
-            <input type="text" id="customerName" placeholder="Customer Name" required />
-            <input type="text" id="contactNumber" placeholder="Contact Number" required />
-            <div id="fabricList"></div>
-            <button type="button" onclick="addFabric()">➕ Add Fabric</button>
-            <input type="number" id="totalWeight" placeholder="Total Weight (kg)" step="0.01" />
-            <input type="date" id="orderReceivedDate" />
-            <input type="date" id="dueDate" required />
-            <textarea id="notes" placeholder="Additional Notes (optional)"></textarea>
-            <button type="submit">➕ Add Order</button>
-        </form>
+    <div class="dashboard">
+        <!-- ✅ Sidebar -->
+        <div class="sidebar">
+            <h2>Dashboard</h2>
+            <button onclick="loadPage('create')">➕ Create an Order</button>
+            <button onclick="loadPage('pending')">🟡 Pending Orders</button>
+            <button onclick="loadPage('active')">🟢 Active Orders</button>
+            <button onclick="loadPage('processed')">✅ Processed Orders</button>
+            <button onclick="loadPage('cancelled')">❌ Cancelled Orders</button>
+            <button onclick="loadPage('overdue')">🔴 Overdue Orders</button>
+            <button onclick="loadPage('finished')">🏁 Finished Orders</button>
+        </div>
 
-        <div id="orderList"></div>
+        <!-- ✅ Main Content Area -->
+        <div class="main-content" id="main-content">
+            <!-- This will be dynamically updated using JavaScript -->
+            <p>Loading...</p>
+        </div>
     </div>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // ✅ Load different pages dynamically without refreshing the whole page
+        async function loadPage(page) {
+            try {
+                const response = await fetch(`/${page}`);
+                if (!response.ok) throw new Error(`Failed to load page: ${page}`);
+
+                // ✅ Update content dynamically
+                const html = await response.text();
+                document.getElementById('main-content').innerHTML = html;
+
+            } catch (error) {
+                console.error(`Error: ${error.message}`);
+                document.getElementById('main-content').innerHTML = `<p>Error loading page: ${error.message}</p>`;
+            }
+        }
+
+        // ✅ Load default page (Pending Orders) on startup
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPage('pending');
+        });
+
+        // ✅ Function to delete an order
+        async function deleteOrder(orderId) {
+            if (confirm('Are you sure you want to delete this order?')) {
+                const response = await fetch(`/delete_order/${orderId}`, {
+                    method: 'DELETE'
+                });
+                if (response.ok) {
+                    loadPage('pending');
+                } else {
+                    alert('Failed to delete order.');
+                }
+            }
+        }
+
+        // ✅ Function to update order status
+        async function updateStatus(orderId, newStatus) {
+            const response = await fetch(`/update_status/${orderId}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus })
+            });
+            if (response.ok) {
+                loadPage('pending');
+            } else {
+                alert('Failed to update order status.');
+            }
+        }
+
+        // ✅ Restore a cancelled order to pending
+        async function restoreOrder(orderId) {
+            const response = await fetch(`/restore_order/${orderId}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: 'pending' })
+            });
+            if (response.ok) {
+                loadPage('pending');
+            } else {
+                alert('Failed to restore order.');
+            }
+        }
+    </script>
 </body>
 </html>
 
