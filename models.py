@@ -1,4 +1,6 @@
-from app import db
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -10,6 +12,7 @@ class Order(db.Model):
     notes = db.Column(db.Text, nullable=True)
     status = db.Column(db.String(20), default='pending')
 
+    # ✅ Relationship with Fabric
     fabrics = db.relationship('Fabric', backref='order', lazy=True)
 
 class Fabric(db.Model):
