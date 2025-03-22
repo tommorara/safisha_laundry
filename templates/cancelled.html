@@ -1,0 +1,51 @@
+<h2>❌ Cancelled Orders</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Customer Name</th>
+            <th>Contact</th>
+            <th>Fabrics</th>
+            <th>Total Weight</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.customer_name }}</td>
+            <td>{{ order.contact_number }}</td>
+            <td>
+                {% for fabric in order.fabrics %}
+                    {{ fabric.quantity }} x {{ fabric.fabric_type }}<br>
+                {% endfor %}
+            </td>
+            <td>{{ order.total_weight }} kg</td>
+            <td>
+                <button onclick="restoreOrder({{ order.id }})">↩️ Restore</button>
+                <button onclick="deleteOrder({{ order.id }})">❌ Delete</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    // ✅ Restore Order to Pending
+    async function restoreOrder(orderId) {
+        const response = await fetch(`/update_status/${orderId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: 'pending' })
+        });
+
+        if (response.ok) {
+            alert('Order restored successfully!');
+            loadPage('pending');
+        } else {
+            alert('Failed to restore order.');
+        }
+    }
+</script>
+
