@@ -1,31 +1,65 @@
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('orderForm').addEventListener('submit', async (event) => {
-        event.preventDefault();
+// ✅ Automatically set today's date for "Date Received"
+document.getElementById('dateReceived').valueAsDate = new Date();
 
-        const customerName = document.getElementById('customerName').value;
-        const contactNumber = document.getElementById('contactNumber').value;
-        const totalWeight = parseFloat(document.getElementById('totalWeight').value) || 0;
-        const orderReceivedDate = document.getElementById('orderReceivedDate').value;
-        const dueDate = document.getElementById('dueDate').value;
-        const notes = document.getElementById('notes').value;
+// ✅ Available fabric types in Kenyan Market
+const fabricTypes = [
+    'Cotton', 'Polyester', 'Denim', 'Silk', 'Linen', 
+    'Wool', 'Chiffon', 'Leather', 'Canvas', 'Velvet', 'Other'
+];
 
-        const fabrics = [];
-        document.querySelectorAll('.fabric-item').forEach(item => {
-            const type = item.querySelector('select').value;
-            const quantity = parseInt(item.querySelector('input').value) || 0;
-            fabrics.push({ type, quantity });
-        });
+// ✅ Add new fabric entry
+function addFabric() {
+    const fabricList = document.getElementById('fabricList');
 
-        const newOrder = {
-            customer_name: customerName,
-            contact_number: contactNumber,
-            fabrics: fabrics,
-            total_weight: totalWeight,
-            order_received_date: orderReceivedDate,
-            due_date: dueDate,
-            notes: notes
-        };
+    const fabricItem = document.createElement('div');
+    fabricItem.className = 'fabric-item';
 
+    fabricItem.innerHTML = `
+        <select class="fabric-type" required>
+            <option value="" disabled selected>Select Fabric Type</option>
+            ${fabricTypes.map(type => `<option value="${type}">${type}</option>`).join('')}
+        </select>
+        <input type="number" class="fabric-quantity" min="1" placeholder="Quantity" required />
+        <button type="button" class="remove-fabric-btn" onclick="this.parentNode.remove()">❌</button>
+    `;
+
+    fabricList.appendChild(fabricItem);
+}
+
+// ✅ Submit order to backend
+document.getElementById('createOrderForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const customerName = document.getElementById('customerName').value;
+    const contactNumber = document.getElementById('contactNumber').value;
+    const dateReceived = document.getElementById('dateReceived').value;
+    const dateToBeCollected = document.getElementById('dateToBeCollected').value;
+    const notes = document.getElementById('notes').value;
+
+    const fabrics = [];
+    document.querySelectorAll('.fabric-item').forEach(item => {
+        const type = item.querySelector('.fabric-type').value;
+        const quantity = parseInt(item.querySelector('.fabric-quantity').value);
+        fabrics.push({ type, quantity });
+    });
+
+    if (fabrics.length === 0) {
+        alert('Please add at least one fabric.');
+        return;
+    }
+
+    const newOrder = {
+        customer_name: customerName,
+        contact_number: contactNumber,
+        fabrics,
+        total_weight: 0,
+        order_received_date: dateReceived,
+        due_date: dateToBeCollected,
+        notes,
+        status: 'pending'
+    };
+
+    try {
         const response = await fetch('/add_order', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -33,45 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (response.ok) {
-            loadOrders();
-            document.getElementById('orderForm').reset();
-            document.getElementById('fabricList').innerHTML = '';
+            alert('Order created successfully!');
+            window.location.href = '/pending';
         }
-    });
-
-    async function loadOrders() {
-        const response = await fetch('/get_orders');
-        const orders = await response.json();
-
-        const orderList = document.getElementById('orderList');
-        orderList.innerHTML = orders.map(order => `
-            <div>
-                <strong>${order.customer_name}</strong> (${order.contact_number})<br>
-                Fabrics: ${order.fabrics.map(f => `${f.quantity} x ${f.type}`).join(', ')}<br>
-                Total Weight: ${order.total_weight.toFixed(2)} kg<br>
-                Status: ${order.status}
-            </div>
-        `).join('');
+    } catch (error) {
+        alert('Error submitting order');
     }
-
-    loadOrders();
 });
-
-function addFabric() {
-    const fabricList = document.getElementById('fabricList');
-    const fabricItem = document.createElement('div');
-    fabricItem.className = 'fabric-item';
-    fabricItem.innerHTML = `
-        <select>
-            <option value="Shirts">Shirts</option>
-            <option value="Trousers">Trousers</option>
-            <option value="Jackets">Jackets</option>
-            <option value="Duvets">Duvets</option>
-            <option value="Others">Others</option>
-        </select>
-        <input type="number" placeholder="Qty" min="1" />
-        <button type="button" onclick="this.parentNode.remove()">❌</button>
-    `;
-    fabricList.appendChild(fabricItem);
-}
 
