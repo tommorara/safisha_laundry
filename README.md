@@ -1,12 +1,25 @@
-# React + Vite
+# Safisha Laundry - Frontend (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the React frontend for the **Safisha Laundry** system. It interfaces with the Flask backend via REST API to manage customer laundry orders.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- Built with **React** and **Vite** for lightning-fast development
+- Connected to Flask backend (`http://localhost:5000`)
+- Pages for:
+  - Creating new laundry orders
+  - Viewing order status (pending, active, etc.)
+  - Updating order status dynamically
+- Easy-to-configure `.env` for backend API base URL
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Getting Started
+
+### 1. Clone and Switch to This Branch
+
+```bash
+git checkout frontend-refined
+
