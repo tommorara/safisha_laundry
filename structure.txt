@@ -1,0 +1,26 @@
+.
+├── README.md
+├── __pycache__
+│   ├── __init__.cpython-312.pyc
+│   ├── app.cpython-312.pyc
+│   ├── config.cpython-312.pyc
+│   └── models.cpython-312.pyc
+├── app.py
+├── config.py
+├── models.py
+├── requirements.txt
+├── static
+│   ├── script.js
+│   └── styles.css
+├── structure.txt
+└── templates
+    ├── active.html
+    ├── cancelled.html
+    ├── create_order.html
+    ├── finished.html
+    ├── index.html
+    ├── overdue.html
+    ├── pending.html
+    └── processed.html
+
+4 directories, 20 files
