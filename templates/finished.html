@@ -6,13 +6,15 @@
     {% for order in orders %}
     <li>
         <strong>{{ order.customer_name }}</strong><br>
-        {{ order.contact_number }} | {{ order.status }}<br>
+        {{ order.contact_number }}<br>
         From {{ order.order_received_date }} → To {{ order.due_date }}
         <ul>
             {% for fabric in order.fabrics %}
             <li>{{ fabric.quantity }} x {{ fabric.fabric_type }}</li>
             {% endfor %}
         </ul>
+        <p><em>Status locked</em></p>
+        <hr>
     </li>
     {% endfor %}
 </ul>

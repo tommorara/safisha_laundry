@@ -6,13 +6,38 @@
     {% for order in orders %}
     <li>
         <strong>{{ order.customer_name }}</strong><br>
-        {{ order.contact_number }} | {{ order.status }}<br>
+        {{ order.contact_number }}<br>
         From {{ order.order_received_date }} → To {{ order.due_date }}
         <ul>
             {% for fabric in order.fabrics %}
             <li>{{ fabric.quantity }} x {{ fabric.fabric_type }}</li>
             {% endfor %}
         </ul>
+
+        <!-- 🔄 Status Update Form -->
+        {% set transitions = {
+            'pending': ['active', 'cancelled'],
+            'active': ['processed', 'cancelled'],
+            'processed': ['finished', 'cancelled'],
+            'cancelled': [],
+            'finished': [],
+            'overdue': []
+        } %}
+
+        {% if transitions[order.status] %}
+        <form method="post" action="{{ url_for('main.update_status', order_id=order.id) }}">
+            <select name="status">
+                {% for s in transitions[order.status] %}
+                <option value="{{ s }}">{{ s.capitalize() }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Update</button>
+        </form>
+        {% else %}
+        <p><em>Status locked</em></p>
+        {% endif %}
+
+        <hr>
     </li>
     {% endfor %}
 </ul>
