@@ -1,96 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Laundry Order Management</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <meta charset="UTF-8">
+    <title>Laundry Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="dashboard">
-        <!-- ✅ Sidebar -->
-        <div class="sidebar">
-            <h2>Dashboard</h2>
-            <button onclick="loadPage('create')">➕ Create an Order</button>
-            <button onclick="loadPage('pending')">🟡 Pending Orders</button>
-            <button onclick="loadPage('active')">🟢 Active Orders</button>
-            <button onclick="loadPage('processed')">✅ Processed Orders</button>
-            <button onclick="loadPage('cancelled')">❌ Cancelled Orders</button>
-            <button onclick="loadPage('overdue')">🔴 Overdue Orders</button>
-            <button onclick="loadPage('finished')">🏁 Finished Orders</button>
-        </div>
-
-        <!-- ✅ Main Content Area -->
-        <div class="main-content" id="main-content">
-            <!-- This will be dynamically updated using JavaScript -->
-            <p>Loading...</p>
-        </div>
-    </div>
-
-    <script>
-        // ✅ Load different pages dynamically without refreshing the whole page
-        async function loadPage(page) {
-            try {
-                const response = await fetch(`/${page}`);
-                if (!response.ok) throw new Error(`Failed to load page: ${page}`);
-
-                // ✅ Update content dynamically
-                const html = await response.text();
-                document.getElementById('main-content').innerHTML = html;
-
-            } catch (error) {
-                console.error(`Error: ${error.message}`);
-                document.getElementById('main-content').innerHTML = `<p>Error loading page: ${error.message}</p>`;
-            }
-        }
-
-        // ✅ Load default page (Pending Orders) on startup
-        document.addEventListener('DOMContentLoaded', () => {
-            loadPage('pending');
-        });
-
-        // ✅ Function to delete an order
-        async function deleteOrder(orderId) {
-            if (confirm('Are you sure you want to delete this order?')) {
-                const response = await fetch(`/delete_order/${orderId}`, {
-                    method: 'DELETE'
-                });
-                if (response.ok) {
-                    loadPage('pending');
-                } else {
-                    alert('Failed to delete order.');
-                }
-            }
-        }
-
-        // ✅ Function to update order status
-        async function updateStatus(orderId, newStatus) {
-            const response = await fetch(`/update_status/${orderId}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status: newStatus })
-            });
-            if (response.ok) {
-                loadPage('pending');
-            } else {
-                alert('Failed to update order status.');
-            }
-        }
-
-        // ✅ Restore a cancelled order to pending
-        async function restoreOrder(orderId) {
-            const response = await fetch(`/restore_order/${orderId}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status: 'pending' })
-            });
-            if (response.ok) {
-                loadPage('pending');
-            } else {
-                alert('Failed to restore order.');
-            }
-        }
-    </script>
+    <h1>Welcome to Laundry Manager</h1>
+    <nav>
+        <a href="/create">➕ Create Order</a> |
+        <a href="/pending">🟡 Pending</a> |
+        <a href="/active">🟢 Active</a> |
+        <a href="/processed">✅ Processed</a> |
+        <a href="/overdue">🔴 Overdue</a> |
+        <a href="/cancelled">❌ Cancelled</a> |
+        <a href="/finished">🏁 Finished</a>
+    </nav>
 </body>
 </html>
 

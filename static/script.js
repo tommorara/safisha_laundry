@@ -1,77 +1,48 @@
-// ✅ Automatically set today's date for "Date Received"
-document.getElementById('dateReceived').valueAsDate = new Date();
-
-// ✅ Available fabric types in Kenyan Market
-const fabricTypes = [
-    'Cotton', 'Polyester', 'Denim', 'Silk', 'Linen', 
-    'Wool', 'Chiffon', 'Leather', 'Canvas', 'Velvet', 'Other'
-];
-
-// ✅ Add new fabric entry
 function addFabric() {
     const fabricList = document.getElementById('fabricList');
-
-    const fabricItem = document.createElement('div');
-    fabricItem.className = 'fabric-item';
-
-    fabricItem.innerHTML = `
-        <select class="fabric-type" required>
-            <option value="" disabled selected>Select Fabric Type</option>
-            ${fabricTypes.map(type => `<option value="${type}">${type}</option>`).join('')}
+    const div = document.createElement('div');
+    div.innerHTML = `
+        <select required>
+            <option value="Cotton">Cotton</option>
+            <option value="Denim">Denim</option>
+            <option value="Silk">Silk</option>
         </select>
-        <input type="number" class="fabric-quantity" min="1" placeholder="Quantity" required />
-        <button type="button" class="remove-fabric-btn" onclick="this.parentNode.remove()">❌</button>
+        <input type="number" placeholder="Quantity" required>
+        <button type="button" onclick="this.parentNode.remove()">❌</button>
     `;
-
-    fabricList.appendChild(fabricItem);
+    fabricList.appendChild(div);
 }
 
-// ✅ Submit order to backend
-document.getElementById('createOrderForm').addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const customerName = document.getElementById('customerName').value;
-    const contactNumber = document.getElementById('contactNumber').value;
-    const dateReceived = document.getElementById('dateReceived').value;
-    const dateToBeCollected = document.getElementById('dateToBeCollected').value;
-    const notes = document.getElementById('notes').value;
+document.getElementById('createOrderForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
     const fabrics = [];
-    document.querySelectorAll('.fabric-item').forEach(item => {
-        const type = item.querySelector('.fabric-type').value;
-        const quantity = parseInt(item.querySelector('.fabric-quantity').value);
+    document.querySelectorAll('#fabricList > div').forEach(div => {
+        const type = div.querySelector('select').value;
+        const quantity = parseInt(div.querySelector('input').value);
         fabrics.push({ type, quantity });
     });
 
-    if (fabrics.length === 0) {
-        alert('Please add at least one fabric.');
-        return;
-    }
-
-    const newOrder = {
-        customer_name: customerName,
-        contact_number: contactNumber,
-        fabrics,
-        total_weight: 0,
-        order_received_date: dateReceived,
-        due_date: dateToBeCollected,
-        notes,
-        status: 'pending'
+    const payload = {
+        customer_name: document.getElementById('customerName').value,
+        contact_number: document.getElementById('contactNumber').value,
+        order_received_date: document.getElementById('dateReceived').value,
+        due_date: document.getElementById('dateToBeCollected').value,
+        notes: document.getElementById('notes').value,
+        fabrics: fabrics
     };
 
-    try {
-        const response = await fetch('/add_order', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newOrder)
-        });
+    const res = await fetch('/add_order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
 
-        if (response.ok) {
-            alert('Order created successfully!');
-            window.location.href = '/pending';
-        }
-    } catch (error) {
-        alert('Error submitting order');
+    if (res.ok) {
+        alert("Order created!");
+        window.location.href = "/pending";
+    } else {
+        alert("Failed to create order");
     }
 });
 

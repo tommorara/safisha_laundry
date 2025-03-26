@@ -1,42 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
 <h2>🟢 Active Orders</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Order ID</th>
-            <th>Customer Name</th>
-            <th>Contact</th>
-            <th>Fabrics</th>
-            <th>Total Weight</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for order in orders %}
-        <tr>
-            <td>{{ order.id }}</td>
-            <td>{{ order.customer_name }}</td>
-            <td>{{ order.contact_number }}</td>
-            <td>
-                {% for fabric in order.fabrics %}
-                    {{ fabric.quantity }} x {{ fabric.fabric_type }}<br>
-                {% endfor %}
-            </td>
-            <td>{{ order.total_weight }} kg</td>
-            <td>
-                <select onchange="updateStatus({{ order.id }}, this.value)">
-                    <option value="pending" {% if order.status == 'pending' %}selected{% endif %}>Pending</option>
-                    <option value="processed" {% if order.status == 'processed' %}selected{% endif %}>Processed</option>
-                    <option value="picked-up" {% if order.status == 'picked-up' %}selected{% endif %}>Picked Up</option>
-                    <option value="overdue" {% if order.status == 'overdue' %}selected{% endif %}>Overdue</option>
-                </select>
-            </td>
-            <td>
-                <button onclick="updateOrder({{ order.id }})">✏️ Edit</button>
-                <button onclick="deleteOrder({{ order.id }})">❌ Delete</button>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<ul>
+    {% for order in orders %}
+    <li>
+        <strong>{{ order.customer_name }}</strong><br>
+        {{ order.contact_number }} | {{ order.status }}<br>
+        From {{ order.order_received_date }} → To {{ order.due_date }}
+        <ul>
+            {% for fabric in order.fabrics %}
+            <li>{{ fabric.quantity }} x {{ fabric.fabric_type }}</li>
+            {% endfor %}
+        </ul>
+        <hr>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
 
