@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Create Order</h2>
+<form id="createOrderForm">
+    <label>Customer Name: <input type="text" id="customerName" required></label><br>
+    <label>Contact Number: <input type="text" id="contactNumber" required></label><br>
+    <label>Date Received: <input type="date" id="dateReceived" required></label><br>
+    <label>Due Date: <input type="date" id="dateToBeCollected" required></label><br>
+    <label>Notes: <textarea id="notes"></textarea></label><br>
+
+    <h3>Fabrics</h3>
+    <div id="fabricList"></div>
+    <button type="button" onclick="addFabric()">➕ Add Fabric</button><br><br>
+
+    <button type="submit">✅ Submit Order</button>
+</form>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}
+

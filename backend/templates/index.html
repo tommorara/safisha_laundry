@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Laundry Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Welcome to Laundry Manager</h1>
+    <nav>
+        <a href="/create">➕ Create Order</a> |
+        <a href="/pending">🟡 Pending</a> |
+        <a href="/active">🟢 Active</a> |
+        <a href="/processed">✅ Processed</a> |
+        <a href="/overdue">🔴 Overdue</a> |
+        <a href="/cancelled">❌ Cancelled</a> |
+        <a href="/finished">🏁 Finished</a>
+    </nav>
+</body>
+</html>
+
