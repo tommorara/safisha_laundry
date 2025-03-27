@@ -3,11 +3,12 @@
 {% block content %}
 <h2>Create Order</h2>
 <form id="createOrderForm">
-    <label>Customer Name: <input type="text" id="customerName" required></label><br>
-    <label>Contact Number: <input type="text" id="contactNumber" required></label><br>
-    <label>Date Received: <input type="date" id="dateReceived" required></label><br>
-    <label>Due Date: <input type="date" id="dateToBeCollected" required></label><br>
-    <label>Notes: <textarea id="notes"></textarea></label><br>
+    <label>Customer Name: <input type="text" id="customerName" name="customerName" required></label><br>
+    <label>Contact Number: <input type="text" id="contactNumber" name="contactNumber" required></label><br>
+    <label>Total Weight (kg): <input type="number" id="totalWeight" name="totalWeight" step="0.01" required></label><br>
+    <label>Date Received: <input type="date" id="dateReceived" name="dateReceived" required></label><br>
+    <label>Due Date: <input type="date" id="dateToBeCollected" name="dateToBeCollected" required></label><br>
+    <label>Notes: <textarea id="notes" name="notes"></textarea></label><br>
 
     <h3>Fabrics</h3>
     <div id="fabricList"></div>
@@ -15,6 +16,47 @@
 
     <button type="submit">✅ Submit Order</button>
 </form>
+
+<script>
+const fabricTypes = [
+    'Trouser', 'Shirt', 'Suit', 'Coat', 'Dress',
+    'Skirt', 'Blouse', 'Jacket', 'Kitenge', 'Sweater', 'Others'
+];
+
+function addFabric() {
+    const div = document.createElement('div');
+    div.className = 'fabric-entry';
+
+    const fabricSelect = document.createElement('select');
+    fabricSelect.name = 'fabricType';
+    fabricSelect.required = true;
+
+    fabricTypes.forEach(type => {
+        const option = document.createElement('option');
+        option.value = type;
+        option.textContent = type;
+        fabricSelect.appendChild(option);
+    });
+
+    const qtyInput = document.createElement('input');
+    qtyInput.type = 'number';
+    qtyInput.min = 1;
+    qtyInput.name = 'fabricQty';
+    qtyInput.placeholder = 'Quantity';
+    qtyInput.required = true;
+
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.textContent = '❌';
+    removeBtn.onclick = () => div.remove();
+
+    div.appendChild(fabricSelect);
+    div.appendChild(qtyInput);
+    div.appendChild(removeBtn);
+
+    document.getElementById('fabricList').appendChild(div);
+}
+</script>
 
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 {% endblock %}
