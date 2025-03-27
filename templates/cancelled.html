@@ -5,8 +5,9 @@
 <ul>
     {% for order in orders %}
     <li>
-        <strong>{{ order.customer_name }}</strong><br>
-        {{ order.contact_number }}<br>
+        <strong>Order #{{ order.order_number }}</strong><br>
+        {{ order.customer_name }} — {{ order.contact_number }}<br>
+        Weight: {{ "%.2f"|format(order.total_weight or 0) }} kg<br>
         From {{ order.order_received_date }} → To {{ order.due_date }}
         <ul>
             {% for fabric in order.fabrics %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" style="background: url('https://via.placeholder.com/1200x500') center/cover no-repeat; height: 500px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+  <h1 style="color: #000; font-size: 3em; margin-bottom: 10px;">🧼 Safisha Laundry Manager</h1>
+  <p style="font-size: 1.2em; color: #000;">Powering Clean Business — One Order at a Time.</p>
+  <a href="{{ url_for('main.create_order_page') }}" style="margin-top: 25px; display: inline-block; padding: 14px 28px; background: #28a745; color: #fff; text-decoration: none; font-weight: bold; border-radius: 5px; font-size: 1.1em;">➕ Create Your First Order</a>
+</section>
+
+<!-- Features Section -->
+<section class="section" id="features" style="padding: 50px 20px; text-align: center;">
+  <h2 style="margin-bottom: 40px;">📌 Key Features</h2>
+  <div class="features" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+    {% set feature_cards = [
+      {
+        "img": "assets/order_anagement.png",
+        "title": "Order Management",
+        "desc": "Create, manage, and monitor laundry service orders with speed and structure."
+      },
+      {
+        "img": "assets/status_tracking.png",
+        "title": "Status Tracking",
+        "desc": "Real-time visual tracking of order statuses ensures nothing falls through the cracks."
+      },
+      {
+        "img": "assets/client_friendly.png",
+        "title": "Client Friendly",
+        "desc": "Keep your customers happy with clear communication and organized service."
+      }
+    ] %}
+    
+    {% for card in feature_cards %}
+    <div style="display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #ccc; padding: 20px; width: 300px; height: 420px; border-radius: 8px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+      <img src="{{ url_for('static', filename=card.img) }}" alt="{{ card.title }}" style="width: 100%; height: 180px; object-fit: contain; border-radius: 8px;">
+      <div style="margin-top: 20px;">
+        <h3>{{ card.title }}</h3>
+        <p style="margin-top: 10px;">{{ card.desc }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="section" id="about" style="padding: 50px 20px; text-align: center;">
+  <h2>👋 About the Project</h2>
+  <p style="max-width: 700px; margin: auto;">
+    Safisha Laundry Manager was created to solve a common pain point for small to mid-sized laundry business owners:
+    manual and messy order tracking. With Safisha, owners can manage everything digitally—from receiving new orders to marking them as finished—all through a clean, intuitive interface.
+  </p>
+  <p style="margin-top: 20px;">
+    <strong>Developer:</strong> Tom Morara Nyabuto
+  </p>
+  <p>
+    <a href="https://github.com/tommorara/safisha_laundry.git" target="_blank">🌐 GitHub Repository</a><br>
+    <a href="https://github.com/tommorara" target="_blank">🐙 GitHub Profile</a><br>
+    <a href="https://www.linkedin.com/in/tom-nyabuto/" target="_blank">💼 LinkedIn</a><br>
+    <a href="https://x.com/MoraraSays" target="_blank">🐦 X (Twitter)</a>
+  </p>
+</section>
+{% endblock %}
+

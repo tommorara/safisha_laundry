@@ -2,20 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Laundry Manager</title>
+    <title>Laundry Manager - App Home</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Welcome to Laundry Manager</h1>
-    <nav>
-        <a href="/create">➕ Create Order</a> |
-        <a href="/pending">🟡 Pending</a> |
-        <a href="/active">🟢 Active</a> |
-        <a href="/processed">✅ Processed</a> |
-        <a href="/overdue">🔴 Overdue</a> |
-        <a href="/cancelled">❌ Cancelled</a> |
-        <a href="/finished">🏁 Finished</a>
-    </nav>
+    <header>
+        <nav>
+            <a href="{{ url_for('main.landing') }}">Landing Page</a>
+            <a href="{{ url_for('main.create_order_page') }}">Create Order</a>
+            <a href="{{ url_for('main.get_orders_by_status', status='pending') }}">Pending Orders</a>
+            <a href="{{ url_for('main.get_orders_by_status', status='active') }}">Active Orders</a>
+            <a href="{{ url_for('main.get_orders_by_status', status='processed') }}">Processed Orders</a>
+            <a href="{{ url_for('main.get_orders_by_status', status='finished') }}">Finished Orders</a>
+            <a href="{{ url_for('main.get_orders_by_status', status='overdue') }}">Overdue Orders</a>
+            <a href="{{ url_for('main.get_orders_by_status', status='cancelled') }}">Cancelled Orders</a>
+        </nav>
+    </header>
+    <main>
+        <h1>Welcome to Laundry Manager</h1>
+        <p>This application helps you manage laundry orders efficiently.</p>
+    </main>
 </body>
 </html>
 

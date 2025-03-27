@@ -17,47 +17,6 @@
     <button type="submit">✅ Submit Order</button>
 </form>
 
-<script>
-const fabricTypes = [
-    'Trouser', 'Shirt', 'Suit', 'Coat', 'Dress',
-    'Skirt', 'Blouse', 'Jacket', 'Kitenge', 'Sweater', 'Others'
-];
-
-function addFabric() {
-    const div = document.createElement('div');
-    div.className = 'fabric-entry';
-
-    const fabricSelect = document.createElement('select');
-    fabricSelect.name = 'fabricType';
-    fabricSelect.required = true;
-
-    fabricTypes.forEach(type => {
-        const option = document.createElement('option');
-        option.value = type;
-        option.textContent = type;
-        fabricSelect.appendChild(option);
-    });
-
-    const qtyInput = document.createElement('input');
-    qtyInput.type = 'number';
-    qtyInput.min = 1;
-    qtyInput.name = 'fabricQty';
-    qtyInput.placeholder = 'Quantity';
-    qtyInput.required = true;
-
-    const removeBtn = document.createElement('button');
-    removeBtn.type = 'button';
-    removeBtn.textContent = '❌';
-    removeBtn.onclick = () => div.remove();
-
-    div.appendChild(fabricSelect);
-    div.appendChild(qtyInput);
-    div.appendChild(removeBtn);
-
-    document.getElementById('fabricList').appendChild(div);
-}
-</script>
-
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 {% endblock %}
 

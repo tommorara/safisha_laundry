@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Dashboard Header -->
+<section class="dashboard-header" style="padding: 20px; text-align: center; background: #f0f0f0;">
+  <h1>Dashboard</h1>
+  <p>Overview of all Laundry Orders</p>
+</section>
+
+<!-- Search Section -->
+<section class="search-section" style="padding: 20px; text-align: center;">
+  <form action="{{ url_for('main.search_orders') }}" method="GET" style="display: inline-block;">
+    <input type="text" name="q" placeholder="Search by order # or client name" style="padding: 10px; width: 300px; border: 1px solid #ccc; border-radius: 4px;">
+    <button type="submit" style="padding: 10px 15px; border: none; background: #ff6600; color: #fff; border-radius: 4px; cursor: pointer;">&#128269; Search</button>
+  </form>
+</section>
+
+<!-- Order Summary Section -->
+<section class="dashboard-content" style="padding: 20px;">
+  <h2>Order Summary</h2>
+  <div class="order-summary" style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px;">
+    <div style="border: 1px solid #ccc; padding: 20px; width: 200px; border-radius: 8px;">
+      <h3>Total Orders</h3>
+      <p>{{ total_orders }}</p>
+    </div>
+    <div style="border: 1px solid #ccc; padding: 20px; width: 200px; border-radius: 8px;">
+      <h3>Pending</h3>
+      <p>{{ pending_orders }}</p>
+    </div>
+    <div style="border: 1px solid #ccc; padding: 20px; width: 200px; border-radius: 8px;">
+      <h3>Active</h3>
+      <p>{{ active_orders }}</p>
+    </div>
+    <div style="border: 1px solid #ccc; padding: 20px; width: 200px; border-radius: 8px;">
+      <h3>Processed</h3>
+      <p>{{ processed_orders }}</p>
+    </div>
+  </div>
+</section>
+
+<!-- Orders List Section -->
+<section class="order-list" style="padding: 20px;">
+  <h2>All Orders</h2>
+  <table style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr style="background: #f0f0f0;">
+        <th style="padding: 10px; border: 1px solid #ccc;">Order #</th>
+        <th style="padding: 10px; border: 1px solid #ccc;">Client Name</th>
+        <th style="padding: 10px; border: 1px solid #ccc;">Contact</th>
+        <th style="padding: 10px; border: 1px solid #ccc;">Status</th>
+        <th style="padding: 10px; border: 1px solid #ccc;">Due Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      <tr>
+        <td style="padding: 10px; border: 1px solid #ccc;">{{ order.order_number }}</td>
+        <td style="padding: 10px; border: 1px solid #ccc;">{{ order.customer_name }}</td>
+        <td style="padding: 10px; border: 1px solid #ccc;">{{ order.contact_number }}</td>
+        <td style="padding: 10px; border: 1px solid #ccc;">{{ order.status.capitalize() }}</td>
+        <td style="padding: 10px; border: 1px solid #ccc;">{{ order.due_date }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}
+

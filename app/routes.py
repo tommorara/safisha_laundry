@@ -13,17 +13,53 @@ def generate_unique_order_number(min_val=1000, max_val=5000):
         raise ValueError("No more unique order numbers available.")
     return random.choice(list(possible))
 
-# 🏠 Home Page
+# 🌐 Landing Page (Home Page)
 @main.route('/')
-def index():
-    return render_template('index.html')
+def landing():
+    return render_template('landing.html')
+
+# 🏠 Dashboard Page (Specialized Home Page with key data & search)
+@main.route('/dashboard')
+def dashboard():
+    total_orders = Order.query.count()
+    pending_orders = Order.query.filter_by(status='pending').count()
+    active_orders = Order.query.filter_by(status='active').count()
+    processed_orders = Order.query.filter_by(status='processed').count()
+    orders = Order.query.all()  # Display all orders on the dashboard
+    return render_template('dashboard.html',
+                           total_orders=total_orders,
+                           pending_orders=pending_orders,
+                           active_orders=active_orders,
+                           processed_orders=processed_orders,
+                           orders=orders)
+
+# 🔎 Search Orders by Order Number or Client Name
+@main.route('/search_orders')
+def search_orders():
+    query = request.args.get('q', '').strip()
+    if query.isdigit():
+        orders = Order.query.filter(Order.order_number == int(query)).all()
+    else:
+        orders = Order.query.filter(Order.customer_name.ilike(f"%{query}%")).all()
+    
+    total_orders = Order.query.count()
+    pending_orders = Order.query.filter_by(status='pending').count()
+    active_orders = Order.query.filter_by(status='active').count()
+    processed_orders = Order.query.filter_by(status='processed').count()
+    
+    return render_template('dashboard.html',
+                           total_orders=total_orders,
+                           pending_orders=pending_orders,
+                           active_orders=active_orders,
+                           processed_orders=processed_orders,
+                           orders=orders)
 
 # 🧾 Order Form Page
 @main.route('/create')
 def create_order_page():
     return render_template('create_order.html')
 
-# 📜 List All Orders (debug view)
+# 📜 List All Orders (for debugging)
 @main.route('/orders')
 def all_orders():
     orders = Order.query.all()
@@ -36,7 +72,7 @@ def get_orders_by_status(status):
     if status not in valid_statuses:
         return jsonify({"error": "Invalid status"}), 404
 
-    # 🔄 Auto-mark overdue
+    # 🔄 Auto-mark overdue orders
     overdue_orders = Order.query.filter(
         Order.due_date < date.today(),
         Order.status.notin_(['finished', 'cancelled', 'overdue'])
@@ -112,7 +148,7 @@ def update_status(order_id):
         if request.is_json:
             return jsonify({'message': f'Status updated to {new_status}'}), 200
         else:
-            return redirect(request.referrer or url_for('main.index'))
+            return redirect(request.referrer or url_for('main.dashboard'))
     else:
         return jsonify({'error': f"Invalid transition from {order.status} to {new_status}"}), 400
 
