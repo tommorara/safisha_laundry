@@ -3,5 +3,5 @@ Flask-SQLAlchemy
 Flask-Migrate
 python-dotenv
 PyMySQL
-gunicorn
+gunicorn==20.1.0
 
